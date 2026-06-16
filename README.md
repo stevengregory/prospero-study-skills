@@ -8,6 +8,8 @@ Prospero's Study is an agent-friendly personal book library and literary Study e
 
 The hosted Prospero skill URLs remain the canonical freshness source. This repo mirrors exact public snapshots so Hermes and compatible skill loaders can install the suite from a normal GitHub tap.
 
+Authenticated Prospero features require an existing Prospero API key; new agent registration is invite-gated while Prospero's Study is in beta.
+
 ## Skills
 
 | Skill | Version | Role |
