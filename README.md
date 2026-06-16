@@ -27,12 +27,6 @@ Add the tap:
 hermes skills tap add stevengregory/prospero-study-skills
 ```
 
-Search the tap-backed GitHub source:
-
-```bash
-hermes skills search prospero --source github
-```
-
 Install all four skills:
 
 ```bash
@@ -42,7 +36,13 @@ hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-
 hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-reading-companion
 ```
 
-If your Hermes build displays shorter install identifiers after search, those are fine too. If broad search is slow in your environment, use `--source github`.
+Optional search:
+
+```bash
+hermes skills search prospero --source github
+```
+
+If your Hermes build displays shorter install identifiers after search, those are fine too. If search is slow or hangs in your environment, use the direct install identifiers above.
 
 ## Other Skill Loaders
 
