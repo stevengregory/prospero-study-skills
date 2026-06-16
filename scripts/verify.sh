@@ -33,5 +33,5 @@ for path in Path('skills').glob('*/SKILL.md'):
 print('Prospero skill tap verification ok')
 PY
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  git diff --check -- README.md skills.sh.json skills scripts
+  git diff --check -- AGENTS.md LICENSE README.md skills.sh.json skills scripts
 fi
