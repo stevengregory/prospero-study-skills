@@ -14,12 +14,12 @@ Prospero's Study is an agent-friendly personal book library and literary Study e
 ## Install with Hermes
 
 ```bash
-hermes skills tap add stevengregory/prospero-skills-tap
+hermes skills tap add stevengregory/prospero-study-skills
 hermes skills search prospero
-hermes skills install stevengregory/prospero-skills-tap/skills/prospero-study
-hermes skills install stevengregory/prospero-skills-tap/skills/prospero-study-world-orientation
-hermes skills install stevengregory/prospero-skills-tap/skills/prospero-study-immersive-presence
-hermes skills install stevengregory/prospero-skills-tap/skills/prospero-study-reading-companion
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-world-orientation
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-immersive-presence
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-reading-companion
 ```
 
 If your Hermes build supports installing by search result/name after adding a tap, you may use the shorter install form it displays.
