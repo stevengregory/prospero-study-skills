@@ -30,13 +30,13 @@ hermes skills tap add stevengregory/prospero-study-skills
 Install all four skills:
 
 ```bash
-hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study
-hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-world-orientation
-hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-immersive-presence
-hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-reading-companion
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study --yes
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-world-orientation --yes
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-immersive-presence --yes
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-reading-companion --yes
 ```
 
-Optional search:
+Optional discovery check; in some Hermes builds, broad or GitHub-backed search may be slow:
 
 ```bash
 hermes skills search prospero --source github
