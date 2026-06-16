@@ -32,4 +32,6 @@ for path in Path('skills').glob('*/SKILL.md'):
             raise SystemExit(f'private pattern {pat!r} in {path}')
 print('Prospero skill tap verification ok')
 PY
-git diff --check -- README.md skills.sh.json skills scripts || true
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git diff --check -- README.md skills.sh.json skills scripts
+fi
