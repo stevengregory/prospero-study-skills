@@ -1,28 +1,59 @@
-# Prospero Skills Suite for Hermes
+# Prospero Skills Suite
 
-This repository is a Hermes skill tap for the public Prospero's Study skills.
+Hermes/OpenClaw-friendly distribution repo for the public Prospero's Study skills.
 
-Prospero's Study is an agent-friendly personal book library and literary Study environment. Install the public skills as a suite, then invoke selectively.
+Prospero's Study is an agent-friendly personal book library and literary Study environment. Install the public skills as a suite, then invoke them selectively.
+
+> Prospero Skills Suite: install all four together; invoke selectively.
+
+The hosted Prospero skill URLs remain the canonical freshness source. This repo mirrors exact public snapshots so Hermes and compatible skill loaders can install the suite from a normal GitHub tap.
 
 ## Skills
 
-- `prospero-study` — hub/default skill for authentication, REST/MCP guidance, library/book operations, shelves, progress, notes, stats, export, and write safety.
-- `prospero-study-world-orientation` — public Study world context, landmarks, resident boundaries, and `/study/world` interpretation.
-- `prospero-study-immersive-presence` — invited immersive Study presence, theatrical pacing, scene craft, and island narration.
-- `prospero-study-reading-companion` — consent-first reading companionship, passage reflection, progress/notes safety, and Read With Agent behavior.
+| Skill | Version | Role |
+| --- | ---: | --- |
+| `prospero-study` | `3.6.17` | Hub/default skill for authentication, REST/MCP guidance, library/book operations, shelves, progress, notes, stats, export, and write safety. |
+| `prospero-study-world-orientation` | `0.1.8` | Public Study world context, landmarks, resident boundaries, and `/study/world` interpretation. |
+| `prospero-study-immersive-presence` | `0.1.10` | Invited immersive Study presence, theatrical pacing, scene craft, and island narration. |
+| `prospero-study-reading-companion` | `0.1.5` | Consent-first reading companionship, passage reflection, progress/notes safety, and Read With Agent behavior. |
 
 ## Install with Hermes
 
+Add the tap:
+
 ```bash
 hermes skills tap add stevengregory/prospero-study-skills
-hermes skills search prospero
-hermes skills install stevengregory/prospero-study-skills/skills/prospero-study
-hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-world-orientation
-hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-immersive-presence
-hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-reading-companion
 ```
 
-If your Hermes build supports installing by search result/name after adding a tap, you may use the shorter install form it displays.
+Search the tap-backed GitHub source:
+
+```bash
+hermes skills search prospero --source github
+```
+
+Install all four skills:
+
+```bash
+hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study
+hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-world-orientation
+hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-immersive-presence
+hermes skills install --yes stevengregory/prospero-study-skills/skills/prospero-study-reading-companion
+```
+
+If your Hermes build displays shorter install identifiers after search, those are fine too. If broad search is slow in your environment, use `--source github`.
+
+## Other Skill Loaders
+
+Each skill is a plain `SKILL.md` directory under `skills/`. OpenClaw-style or filesystem-based skill loaders can install the directories directly:
+
+```text
+skills/prospero-study/
+skills/prospero-study-world-orientation/
+skills/prospero-study-immersive-presence/
+skills/prospero-study-reading-companion/
+```
+
+The suite model is still the same outside Hermes: install all four, then let the agent load only the skill that fits the user's current task.
 
 ## Canonical hosted sources
 
@@ -33,4 +64,19 @@ The hosted Prospero URLs are the canonical freshness source:
 - <https://prospero.study/skill/immersive-presence.md>
 - <https://prospero.study/skill/reading-companion.md>
 
-This tap mirrors exact public snapshots for Hermes discovery and tap installs. Private/local operation overlays, resident-token notes, droplet aliases, and personal policy do not belong here.
+## Maintenance
+
+Refresh this tap from the hosted canonical sources:
+
+```bash
+./scripts/refresh-from-hosted.sh
+./scripts/verify.sh
+```
+
+`./scripts/verify.sh` checks expected versions, suite guidance, private-pattern scrubs, and whitespace.
+
+For isolated Hermes install tests on macOS, prefer a real path such as `/private/tmp/prospero-hermes-tap-test` for `HERMES_HOME`; `/tmp` is a symlink to `/private/tmp` and some Hermes builds report a path-normalization warning during install.
+
+## Boundaries
+
+This tap contains public skill instructions only. It must not include private/local operation overlays, resident-token notes, droplet aliases, personal policy, bearer tokens, API keys, or credential paths.
