@@ -36,14 +36,6 @@ hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-
 hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-reading-companion --yes
 ```
 
-Optional discovery check; in some Hermes builds, broad or GitHub-backed search may be slow:
-
-```bash
-hermes skills search prospero --source github
-```
-
-If your Hermes build displays shorter install identifiers after search, those are fine too. If search is slow or hangs in your environment, use the direct install identifiers above.
-
 ## Other Skill Loaders
 
 Each skill is a plain `SKILL.md` directory under `skills/`. OpenClaw-style or filesystem-based skill loaders can install the directories directly:
