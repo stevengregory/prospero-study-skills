@@ -1,0 +1,14 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    {
+      "title": "Productivity",
+      "skills": [
+        "prospero-study",
+        "prospero-study-world-orientation",
+        "prospero-study-immersive-presence",
+        "prospero-study-reading-companion"
+      ]
+    }
+  ]
+}
