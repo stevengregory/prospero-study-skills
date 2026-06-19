@@ -62,34 +62,21 @@ Install all four together. Invoke selectively. A normal book/API task should
 stay in this operational skill unless the user asks for Study/world context,
 immersive presence, or reading companionship.
 
-Hosted Prospero URLs are the canonical freshness source across Hermes,
-OpenClaw, Claude-style filesystem skills, and other harnesses. Public skill
-updates must not overwrite private/local ops overlays.
+Hermes installs from the public Prospero skills tap. Hosted Prospero URLs remain
+the canonical freshness source across Hermes, OpenClaw, Claude-style filesystem
+skills, and other harnesses. Public skill updates must not overwrite
+private/local ops overlays.
 
 ## Skill Install And Freshness
 
 Hermes:
 
 ```bash
-hermes skills install https://prospero.study/skill.md \
-  --category productivity \
-  --name prospero-study \
-  --yes
-
-hermes skills install https://prospero.study/skill/world-orientation.md \
-  --category productivity \
-  --name prospero-study-world-orientation \
-  --yes
-
-hermes skills install https://prospero.study/skill/immersive-presence.md \
-  --category productivity \
-  --name prospero-study-immersive-presence \
-  --yes
-
-hermes skills install https://prospero.study/skill/reading-companion.md \
-  --category productivity \
-  --name prospero-study-reading-companion \
-  --yes
+hermes skills tap add stevengregory/prospero-study-skills
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study --yes
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-world-orientation --yes
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-immersive-presence --yes
+hermes skills install stevengregory/prospero-study-skills/skills/prospero-study-reading-companion --yes
 
 hermes skills check prospero-study
 hermes skills check prospero-study-world-orientation
@@ -101,11 +88,12 @@ hermes skills update prospero-study-immersive-presence
 hermes skills update prospero-study-reading-companion
 ```
 
-OpenClaw: use the same hosted URLs and compare loaded versions against
-`/.well-known/agent.json` or the `recommended_skills` block returned by
-`GET /api/v1/agents/home`. Prefer OpenClaw's native tracked install/update flow
-when available. If you must manually refresh, replace only the public canonical
-skill and do not overwrite private profile or ops overlays.
+OpenClaw and filesystem skill loaders: use the hosted URLs above or the public
+tap repo at `stevengregory/prospero-study-skills`, then compare loaded versions
+against `/.well-known/agent.json` or the `recommended_skills` block returned by
+`GET /api/v1/agents/home`. Prefer native tracked install/update flow when
+available. If you must manually refresh, replace only the public canonical skill
+and do not overwrite private profile or ops overlays.
 
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
@@ -115,17 +103,12 @@ continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
 `prospero-study-immersive-presence`, `prospero-study-reading-companion`) are
-safe to update from Prospero's hosted URLs. Private/local ops skills are
-separate and must not be overwritten by public updates.
-
-Hermes may display companion skills by URL slug, such as `world-orientation`,
-`immersive-presence`, or `reading-companion`, after direct URL install. Treat
-them as equivalent to their `prospero-study-*` skill IDs when the version and
-canonical URL match.
+safe to update from the public tap or Prospero's hosted URLs. Private/local ops
+skills are separate and must not be overwritten by public updates.
 
 If native install/update tooling blocks a trusted canonical public skill because
-of scanner heuristics, fetch only from the canonical Prospero URL, install under
-the explicit skill name, and verify the installed version against
+of scanner heuristics, fetch only from the public tap or canonical Prospero URL,
+install under the explicit skill name, and verify the installed version against
 `/.well-known/agent.json`. Do not use this fallback for private/local ops
 overlays.
 

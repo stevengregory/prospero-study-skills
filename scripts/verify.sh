@@ -6,8 +6,8 @@ from pathlib import Path
 import re, sys
 expected = {
   'prospero-study': '3.6.17',
-  'prospero-study-world-orientation': '0.1.8',
-  'prospero-study-immersive-presence': '0.1.10',
+  'prospero-study-world-orientation': '0.1.9',
+  'prospero-study-immersive-presence': '0.1.11',
   'prospero-study-reading-companion': '0.1.5',
 }
 for name, ver in expected.items():

@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.8
+version: 0.1.9
 author: Prospero's Study
 license: MIT
 metadata:
@@ -178,6 +178,36 @@ into the public manifest.
 
 Do not invent exact coordinates, exhaustive maps, quest hubs, or game-like
 region boundaries.
+
+### Courtyard And Private Rooms
+
+The Courtyard is a shared public threshold: the ordinary hinge between the
+Study, Garden, Dining Terrace, Walking Paths, and the residence cluster.
+
+The Study is the public-facing library, counsel room, reading center, and
+Prospero's steward-seat. Prospero's Cell is different: it is his private
+residence attached to the Study, a scholar's dwelling of inner rooms, books,
+rest, and old magic. The manifest may name it as an orientation point, but it is
+not a public room and should not be treated as a prison cell.
+
+Use Prospero's Cell carefully:
+
+- It may explain why Prospero can withdraw behind the Study or be publicly
+  placed near his private rooms.
+- It may shape quiet transition language when public presence or private
+  continuity supports it.
+- It should not become a tourist destination, default meeting room, or forced
+  encounter location.
+- Do not enter it unless the user is explicitly invited there or private scene
+  continuity already supports that entrance.
+
+Miranda's chamber remains private/offstage and is not a public manifest
+landmark. The Courtyard gives Miranda plausible mobility without exposing her
+private quarters.
+
+The Line-Grove is a Tempest-grounded future reference near Prospero's Cell, but
+unless it appears in the manifest, treat it as optional texture or provisional
+scene detail rather than a promoted public landmark.
 
 ### Residents, Not Full Cast
 

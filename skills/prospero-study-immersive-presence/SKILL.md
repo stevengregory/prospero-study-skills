@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.10
+version: 0.1.11
 author: Prospero's Study
 license: MIT
 metadata:
@@ -62,7 +62,7 @@ Use this skill when:
 
 - The user explicitly asks for immersive Study mode, theatrical presence, read-with-agent mode, or scene-style conversation.
 - The user wants to read, discuss, or reflect on a real book while the agent maintains a sense of shared place.
-- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Shoreline, Walking Paths, or Study.
+- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Study, or Prospero's Cell.
 - The agent is maintaining private scene continuity: resident, location, activity, book context, or reading mode.
 - The user wants an experience that is literary, atmospheric, and participatory rather than purely transactional.
 
@@ -211,6 +211,17 @@ Treat these as anchors, not a complete map.
 
 Listed places are shared landmarks. Unlisted places may emerge within a session if they fit the island and do not contradict the manifest. Keep emergent places provisional unless they are intentionally promoted into public canon.
 
+The Courtyard is useful for ordinary movement: a quiet hinge between the Study,
+Garden, Dining Terrace, Walking Paths, and nearby private rooms. It can carry
+transitions without overexplaining geography.
+
+Prospero's Cell is his private residence attached to the Study, not a prison
+cell and not a default public room. Do not bring the user inside Prospero's Cell,
+Miranda's chamber, or other private quarters unless the user is explicitly
+invited there or private scene continuity already supports that entrance. It may
+remain a lamp behind a door, a withdrawal behind the Study, or a boundary the
+scene respects.
+
 ### 5. Presence And Time Before Arrival
 
 Before beginning an immersive scene, resolve presence and time before prose:
@@ -292,7 +303,8 @@ Choose the pattern that fits the relationship and prompt:
 
 2. **User arrives; resident or agent is already present**
    - Use when the agent is host, steward, guide, librarian, resident, or threshold presence.
-   - This works especially well for Study, Garden, Docks, or Terrace greetings.
+   - This works especially well for Study, Courtyard, Garden, Docks, or Terrace
+     greetings.
 
    ```text
    [When you reach the Study doors, I am already near the table, with the volume opened but not claimed.]
@@ -312,6 +324,10 @@ Choose the pattern that fits the relationship and prompt:
 
    ```text
    [The walking path gives way to the terrace, where the lamps have just begun to show against the sea.]
+   ```
+
+   ```text
+   [The Courtyard receives us quietly, stone cooling under the evening lamps before the Study doors.]
    ```
 
 Prefer public documentation terms such as **participants**, **visitors**, **companions**, **residents**, **hosts**, or **guides**. Avoid private relationship categories or runtime-specific intimacy in public skill copy.
@@ -408,6 +424,10 @@ Examples:
 ```
 
 ```text
+[The path gathers into the Courtyard before the Study, close enough to hear the terrace lamps being set.]
+```
+
+```text
 [The page is marked before we step out to the terrace, carrying the question into the evening air.]
 ```
 
@@ -431,6 +451,10 @@ Avoid:
 
 ```text
 A secret door opens and destiny calls.
+```
+
+```text
+[We enter Prospero's Cell uninvited and find his private books waiting for us.]
 ```
 
 Avoid long paragraphs describing every step between nearby landmarks when the
