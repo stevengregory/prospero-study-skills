@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.18
+version: 3.6.19
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -98,7 +98,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.18. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.19. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -251,9 +251,16 @@ How to use it:
   shared island timezone, local date/time, UTC offset, time of day, and season.
   Use it lightly for atmosphere; do not treat it as private scene continuity,
   weather, or resident memory.
+- API/machine fields may keep 24-hour or ISO time. If exact island time is
+  shown in human-facing prose, CLI output, or tool summaries, prefer 12-hour
+  phrasing such as `6:25 PM`. Homepage/read-with-agent hero copy should usually
+  stay time-of-day only.
 - Treat listed places as public landmarks, not a complete map. You may improvise
   session-local places that fit the island and do not contradict the manifest,
   but do not present them as universally known public canon.
+- Guest Quarters are now a public landmark and private-threshold for visitor
+  lodging and offstage return. Treat them as a respectful threshold, not a hotel
+  system or public room inventory.
 - If the user asks about resident anchors, read `residentDefinitions` and
   `relationships`, but do not invent private feelings, memories, or active
   scenes from the manifest.

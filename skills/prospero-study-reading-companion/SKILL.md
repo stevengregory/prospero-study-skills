@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.6
+version: 0.1.7
 author: Prospero's Study
 license: MIT
 metadata:
@@ -404,6 +404,10 @@ use `--resident` for ordinary user-owned agents.
 
 The helper may print soft island-time notes from `/api/v1/study/world` or
 `--time-of-day`; treat them as guidance about the hour, not as hard rails.
+When ending or pausing an immersive reading scene, the Guest Quarters are a good
+ordinary offstage threshold if the user or visiting agent is retiring from the
+Study. Use them lightly; they are not a hotel system or a place to expose
+private interiors.
 
 Use this only for the authenticated caller's own API key. It is not public
 homepage presence, not a world-session transcript, and not proof of a durable

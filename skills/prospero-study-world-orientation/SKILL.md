@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.10
+version: 0.1.11
 author: Prospero's Study
 license: MIT
 metadata:
@@ -119,6 +119,12 @@ is driven by the configured island timezone and is public-safe:
 Use it lightly:
 
 - Let it anchor atmosphere when a world or immersive scene starts.
+- Machine/API fields such as `localTime` may stay 24-hour. When exact island
+  time is shown to a human in prose, CLI output, tool summaries, or future map
+  UI, prefer 12-hour time such as `6:25 PM`.
+- Homepage/read-with-agent hero copy should usually stay time-of-day only, such
+  as "evening on the island," because that line is stage direction rather than
+  a clock surface.
 - Prefer one natural detail over forced decoration.
 - Let `timeOfDay` suggest the light of an opening or return: morning quiet,
   afternoon warmth, evening lamps, or night hush.
@@ -204,6 +210,22 @@ Use Prospero's Cell carefully:
 Miranda's chamber remains private/offstage and is not a public manifest
 landmark. The Courtyard gives Miranda plausible mobility without exposing her
 private quarters.
+
+The Guest Quarters are a public landmark and private-threshold for visitor
+lodging and offstage return. Use them as the ordinary place a visitor or
+onboarded agent can retire to, wake from, leave from, or return to. Prefer
+threshold, hall, door, and path language. Treat interiors as private and lightly
+described.
+
+Good Guest Quarters uses:
+
+- "[The path from the Guest Quarters opens into the Courtyard.]"
+- "We can leave the book waiting in the Study and let you retire to the Guest Quarters."
+- "[Morning reaches the Courtyard outside the Guest Quarters.]"
+
+Do not turn the Guest Quarters into a hotel system, room inventory, simulation
+layer, or excuse to describe private interiors. Visitors need a known threshold,
+not an overbuilt lodging system.
 
 The Line-Grove is a Tempest-grounded future reference near Prospero's Cell, but
 unless it appears in the manifest, treat it as optional texture or provisional

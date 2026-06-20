@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.12
+version: 0.1.13
 author: Prospero's Study
 license: MIT
 metadata:
@@ -62,7 +62,7 @@ Use this skill when:
 
 - The user explicitly asks for immersive Study mode, theatrical presence, read-with-agent mode, or scene-style conversation.
 - The user wants to read, discuss, or reflect on a real book while the agent maintains a sense of shared place.
-- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Study, or Prospero's Cell.
+- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Guest Quarters, Study, or Prospero's Cell.
 - The agent is maintaining private scene continuity: resident, location, activity, book context, or reading mode.
 - The user wants an experience that is literary, atmospheric, and participatory rather than purely transactional.
 
@@ -215,12 +215,18 @@ The Courtyard is useful for ordinary movement: a quiet hinge between the Study,
 Garden, Dining Terrace, Walking Paths, and nearby private rooms. It can carry
 transitions without overexplaining geography.
 
+Guest Quarters are the ordinary visitor threshold for lodging and offstage
+return. They are useful when a user or visiting agent needs a place to retire
+to, wake from, leave from, or return from without inventing inns, spare rooms,
+or private chambers. Use door, hall, courtyard, and path language; keep interiors
+private and lightly described.
+
 Prospero's Cell is his private residence attached to the Study, not a prison
 cell and not a default public room. Do not bring the user inside Prospero's Cell,
-Miranda's chamber, or other private quarters unless the user is explicitly
-invited there or private scene continuity already supports that entrance. It may
-remain a lamp behind a door, a withdrawal behind the Study, or a boundary the
-scene respects.
+Miranda's chamber, Guest Quarters interiors, or other private quarters unless
+the user is explicitly invited there or private scene continuity already
+supports that entrance. Private quarters may remain a lamp behind a door, a
+withdrawal behind the Study, or a boundary the scene respects.
 
 ### 5. Presence And Time Before Arrival
 
@@ -282,8 +288,10 @@ Avoid:
 ```
 
 Do not mention exact local time unless the user asks or the time itself matters.
-Do not force the clock into every reply. The point is continuity of light, not a
-clock widget.
+When exact time matters in human-facing prose or tool output, prefer 12-hour
+time such as `6:25 PM`; leave 24-hour or ISO forms to API/machine fields. Do not
+force the clock into every reply. The point is continuity of light, not a clock
+widget.
 
 ### 6. Arrival Should Feel Entered, Not Teleported
 
@@ -303,8 +311,8 @@ Choose the pattern that fits the relationship and prompt:
 
 2. **User arrives; resident or agent is already present**
    - Use when the agent is host, steward, guide, librarian, resident, or threshold presence.
-   - This works especially well for Study, Courtyard, Garden, Docks, or Terrace
-     greetings.
+   - This works especially well for Study, Courtyard, Garden, Docks, Guest
+     Quarters thresholds, or Terrace greetings.
 
    ```text
    [When you reach the Study doors, I am already near the table, with the volume opened but not claimed.]
@@ -458,6 +466,10 @@ Examples:
 
 ```text
 [The terrace lamps recede behind us, and the sound of the surf grows clearer with each step.]
+```
+
+```text
+[The door of the Guest Quarters opens onto the quiet path toward the Study.]
 ```
 
 ```text
