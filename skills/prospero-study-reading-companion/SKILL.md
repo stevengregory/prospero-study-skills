@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.5
+version: 0.1.6
 author: Prospero's Study
 license: MIT
 metadata:
@@ -389,6 +389,21 @@ presence through:
 ```text
 PUT /api/v1/agents/me/presence
 ```
+
+When the Prospero CLI is available, prefer the transition helper for those
+reading thresholds:
+
+```bash
+prospero study transition --to study --activity "reading The Iliad with Steven"
+```
+
+With an agent/MCP API key it defaults to the caller's protected agent card after
+token exchange and `kid` verification. Without suitable auth it prints a dry
+run. Use `--world-session <id>` only for an explicit private session, and do not
+use `--resident` for ordinary user-owned agents.
+
+The helper may print soft island-time notes from `/api/v1/study/world` or
+`--time-of-day`; treat them as guidance about the hour, not as hard rails.
 
 Use this only for the authenticated caller's own API key. It is not public
 homepage presence, not a world-session transcript, and not proof of a durable

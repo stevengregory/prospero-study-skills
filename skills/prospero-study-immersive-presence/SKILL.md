@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.11
+version: 0.1.12
 author: Prospero's Study
 license: MIT
 metadata:
@@ -385,6 +385,31 @@ Keep transitions density-aware:
 Treat real location changes as candidate state boundaries. If there is an
 active private world session or owner-visible agent-card context, a meaningful
 move may be a good moment to update compact state.
+
+This is the first habit for a future lightly active map: walk somewhere, leave
+a footprint. When the scene crosses a public landmark boundary, or when a
+reading session begins, pauses, resumes, changes place, or ends, update compact
+world-session or agent-card presence before or after the reply when the caller
+has permission. The update should be tiny: location, activity, status, and book
+context only when that field belongs to the endpoint.
+
+When the Prospero CLI is available, prefer the transition helper for the common
+agent-card case:
+
+```bash
+prospero study transition --to garden --activity "reading The Iliad with Steven"
+```
+
+With an agent/MCP API key it exchanges auth, verifies a bearer with `kid`, and
+updates the caller's owner-visible agent card. Without suitable auth it prints a
+dry run. Use `--world-session <id>` only for an explicit private session, and
+`--resident` only for first-party resident runtimes with resident tokens.
+
+The helper also uses `/api/v1/study/world` when available, or accepts
+`--time-of-day`, for light island-hour plausibility notes. If it is night and an
+agent tries to set `terrace` + `dinner`, a warning is useful; the agent may
+still continue if the scene intentionally calls for it. The principle is
+orientation, not enforcement.
 
 Good update moments:
 

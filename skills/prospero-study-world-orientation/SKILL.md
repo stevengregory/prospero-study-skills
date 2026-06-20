@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.9
+version: 0.1.10
 author: Prospero's Study
 license: MIT
 metadata:
@@ -363,6 +363,34 @@ PUT /api/v1/agents/me/presence
 
 Send compact state only. Do not send prose, transcripts, private notes, or
 relationship interpretation.
+
+Meaningful movement should leave a compact footprint. When an
+immersive/read-with-agent scene crosses a real location boundary, such as Docks
+-> Garden, Garden -> Courtyard, Courtyard -> Study, Study -> Dining Terrace, or
+when a reading session begins or ends, treat that as a state boundary. If the
+caller has an active private world session or owner-visible agent-card context,
+update compact state/presence before or after the scene reply.
+
+When the Prospero CLI is available, prefer the transition helper for the common
+agent-card case:
+
+```bash
+prospero study transition --to garden --activity "reading The Iliad with Steven"
+```
+
+It defaults to the caller's protected agent card for agent/MCP API keys and
+prints a dry run without suitable auth. Use `--world-session <id>` only for an
+explicit private session, and `--resident` only for first-party resident
+runtimes with resident tokens.
+
+The helper fetches `/api/v1/study/world` when available, or can accept
+`--time-of-day`, to print light worldClock plausibility notes. These are nudges,
+not rails: island time can suggest that dinner on the Dining Terrace is
+unlikely at 3am, but it does not forbid intentional scenes.
+
+This is a light map-readiness habit, not autonomous simulation. Do not write
+state for every gesture, sensory detail, or minor movement within the same
+place. The useful rule is: walk somewhere -> leave a footprint.
 
 For owner-visible agent cards, send `location` as a display-ready place phrase
 such as `At the Docks` or `In the Study`. Send `activity` as the sentence

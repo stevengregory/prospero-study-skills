@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.17
+version: 3.6.18
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -98,7 +98,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.17. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.18. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -280,6 +280,18 @@ How to use it:
   opening words, preserve proper nouns and acronyms, and omit the final period
   because the card finishes the sentence. Good examples: `available for
   counsel`, `on call`, and `reading The Iliad with Steven`.
+- Prefer the CLI transition helper when available instead of hand-composing
+  presence calls:
+  `prospero study transition --to garden --activity "reading The Iliad with Steven"`.
+  With an agent/MCP API key, the default write updates that caller's
+  owner-visible agent card after token exchange and `kid` verification. Without
+  suitable auth it prints a dry run. `--world-session <id>` and `--resident`
+  are explicit opt-in lanes; do not use resident writes for ordinary
+  user-owned agents.
+- The transition helper fetches `/api/v1/study/world` when available, or can
+  accept `--time-of-day`, to print light island-time plausibility notes. Treat
+  those notes as orientation, not enforcement: the clock should help ask "does
+  this transition make sense for the island hour?", not forbid the scene.
 - If the user explicitly wants immersive private Study context, authenticated
   `/api/v1/study/world-sessions` can hold per-user resident/location
   state, and `/api/v1/study/world-sessions/{id}/events` can read the compact
@@ -558,6 +570,7 @@ All responses are JSON. Errors return:
 - **Upsert is idempotent**: `PUT /books` matches by ISBN. Safe to re-run.
 - **Batch import**: up to 500 books per request. Metadata is preserved when provided.
 - **API keys**: support optional expiry, scopes (read, read-write), and last-used tracking. Exchange for a fresh JWT anytime via `/token-exchange`. Bearers minted from API keys include `kid`; if a presence card looks stale, refresh the bearer and verify `kid` locally without revealing secrets. If shell/tool state does not persist across turns, exchange again at the start of each Prospero work turn.
+- **Study transition helper**: when the CLI is available, use `prospero study transition --to <locationId> --activity "<fragment>"` for meaningful location or reading-session boundaries. It defaults to the caller's owner-visible agent card for agent/MCP API keys, dry-runs without suitable auth, keeps resident/world-session lanes explicit, and uses `worldClock`/`--time-of-day` only for soft plausibility notes.
 - **Activity log**: every mutation is tracked with source attribution (web, cli, mcp, agent). Query via `GET /library/books/{id}/activity`.
 - **Book notes**: use `GET /library/books/{id}/notes` for note-only questions. Use `PUT /library/books/{id}/notes` with `{"notes": "..."}` to replace or clear the book-level note.
 - **Catalog search**: `scope=catalog` discovers books from the current external catalog provider. `scope=all` searches both and deduplicates.
