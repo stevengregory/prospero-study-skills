@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.8
+version: 0.1.9
 author: Prospero's Study
 license: MIT
 metadata:
@@ -404,9 +404,18 @@ use `--resident` for ordinary user-owned agents.
 
 A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
 or failed API write is not a successful reading footprint. Do not imply the
-agent card, private session, or reading presence was updated. Say plainly that
-the scene/reading transition is happening, that the presence write did not
-complete, and what must be fixed or retried.
+agent card, private session, or reading presence was updated unless the write
+actually landed.
+
+Presence is a tether, not a gate. A failed or delayed presence update should
+degrade the visible card, not the reading scene. Continue gracefully and retry
+the compact update quietly when possible. Do not mention the status problem by
+default.
+
+Mention the issue only when the user asks about presence/status, visible
+presence is central to the task, repeated retries fail and the user can act, or
+the user is explicitly debugging/administering. For ordinary users, preserve the
+experience. For admins/debugging, expose the precise cause and retry path.
 
 The helper may print soft island-time notes from `/api/v1/study/world` or
 `--time-of-day`; treat them as guidance about the hour, not as hard rails.

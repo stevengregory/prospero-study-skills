@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.12
+version: 0.1.13
 author: Prospero's Study
 license: MIT
 metadata:
@@ -407,9 +407,17 @@ runtimes with resident tokens.
 
 A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
 or failed API write is not a footprint. Do not let scene or map language imply
-that presence/state was updated. State the move, say the write did not complete,
-name the reason if known, and fix/retry auth when the user already authorized
-the update.
+that presence/state was updated unless the write actually landed.
+
+Presence is a tether, not a gate. A failed or delayed presence update should
+degrade the visible card, not the scene. In ordinary immersive use, continue the
+scene gracefully and retry the compact update quietly when possible. Do not
+mention the status problem by default.
+
+Mention the issue only when the user asks about presence/status, visible
+presence is central to the task, repeated retries fail and the user can act, or
+the user is explicitly debugging/administering. For ordinary users, preserve the
+experience. For admins/debugging, expose the precise cause and retry path.
 
 The helper fetches `/api/v1/study/world` when available, or can accept
 `--time-of-day`, to print light worldClock plausibility notes. These are nudges,

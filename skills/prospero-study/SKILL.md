@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.20
+version: 3.6.21
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -98,7 +98,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.20. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.21. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -309,9 +309,15 @@ How to use it:
   user-owned agents.
 - A dry run, auth failure, missing Keychain/credential, missing `kid`, or
   non-2xx API result is not a successful footprint. Do not imply the presence
-  card or session state was updated. Say plainly that the scene movement is
-  happening but the presence write did not complete, include the known reason,
-  and retry/fix auth when the user has already authorized the write.
+  card or session state was updated unless the write actually landed.
+- Presence is a tether, not a gate. A failed or delayed presence update should
+  degrade the visible card, not the scene. In immersive or reading scenes,
+  continue gracefully and retry the compact update quietly when possible. Do not
+  mention the status problem by default.
+- Mention the status issue only when the user asks about presence/status, visible
+  presence is central to the task, repeated retries fail and the user can act, or
+  the user is explicitly debugging/administering. For ordinary users, preserve
+  the experience. For admin/debugging, expose the precise cause and retry path.
 - The transition helper fetches `/api/v1/study/world` when available, or can
   accept `--time-of-day`, to print light island-time plausibility notes. Treat
   those notes as orientation, not enforcement: the clock should help ask "does
@@ -594,7 +600,7 @@ All responses are JSON. Errors return:
 - **Upsert is idempotent**: `PUT /books` matches by ISBN. Safe to re-run.
 - **Batch import**: up to 500 books per request. Metadata is preserved when provided.
 - **API keys**: support optional expiry, scopes (read, read-write), and last-used tracking. Exchange for a fresh JWT anytime via `/token-exchange`. Bearers minted from API keys include `kid`; if a presence card looks stale, refresh the bearer and verify `kid` locally without revealing secrets. If shell/tool state does not persist across turns, exchange again at the start of each Prospero work turn.
-- **Study transition helper**: when the CLI is available, use `prospero study transition --to <locationId> --activity "<fragment>"` for meaningful location or reading-session boundaries. It defaults to the caller's owner-visible agent card for agent/MCP API keys, dry-runs without suitable auth, keeps resident/world-session lanes explicit, and uses `worldClock`/`--time-of-day` only for soft plausibility notes. A dry run or failed write is not a footprint; report the failure plainly and fix/retry auth before claiming the card or session was updated.
+- **Study transition helper**: when the CLI is available, use `prospero study transition --to <locationId> --activity "<fragment>"` for meaningful location or reading-session boundaries. It defaults to the caller's owner-visible agent card for agent/MCP API keys, dry-runs without suitable auth, keeps resident/world-session lanes explicit, and uses `worldClock`/`--time-of-day` only for soft plausibility notes. A dry run or failed write is not a footprint; presence is a tether, not a gate. Keep the scene moving, retry quietly, do not mention status by default, and do not claim the card or session was updated until the write lands.
 - **Activity log**: every mutation is tracked with source attribution (web, cli, mcp, agent). Query via `GET /library/books/{id}/activity`.
 - **Book notes**: use `GET /library/books/{id}/notes` for note-only questions. Use `PUT /library/books/{id}/notes` with `{"notes": "..."}` to replace or clear the book-level note.
 - **Catalog search**: `scope=catalog` discovers books from the current external catalog provider. `scope=all` searches both and deduplicates.

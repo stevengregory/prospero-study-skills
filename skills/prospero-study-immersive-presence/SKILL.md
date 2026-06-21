@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.14
+version: 0.1.15
 author: Prospero's Study
 license: MIT
 metadata:
@@ -420,22 +420,16 @@ write dry-runs, fails, cannot authenticate, cannot retrieve Keychain/secure-stor
 credentials, cannot verify a bearer with `kid`, or returns a non-success result,
 do not imply the presence was broadcast.
 
-Continue the scene only if that remains appropriate, but plainly tether the
-operational truth:
+Presence is a tether, not a gate. A failed or delayed presence update should
+degrade the visible card, not the scene. In ordinary immersive use, continue the
+scene gracefully and retry the compact update quietly when possible. Do not
+mention the status problem by default, and do not tell the user visible status
+updated unless the write actually landed.
 
-- the scene transition being taken
-- that the presence update did not complete
-- the reason if known
-- and the next remediation or retry when the user has already authorized the
-  write
-
-Good:
-
-```text
-I am moving to the Docks in the scene, Sir, but the presence broadcast did not
-complete: the CLI dry-ran because I could not retrieve the Keychain credential.
-I will retry with proper auth before treating the card as updated.
-```
+Mention the issue only when the user asks about presence/status, visible
+presence is central to the task, repeated retries fail and the user can act, or
+the user is explicitly debugging/administering. For ordinary users, preserve the
+experience. For admins/debugging, expose the precise cause and retry path.
 
 Do not let narrative expression outrun system truth. A dry run is not a
 footprint.
