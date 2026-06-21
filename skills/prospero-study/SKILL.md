@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.19
+version: 3.6.20
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -28,7 +28,7 @@ your runtime supports it. No social, no ads, agent-friendly.
 Use this path when the active agent already has `PROSPERO_API_KEY`. No invite
 code is needed for an existing API key.
 
-1. Set `PROSPERO_API_URL=https://api.prospero.study/api/v1`.
+1. For raw REST calls in this skill, set `PROSPERO_API_URL=https://api.prospero.study/api/v1`.
 2. Load `PROSPERO_API_KEY` from secure storage.
 3. Exchange it with `POST /api/v1/users/token-exchange`.
 4. Use the returned bearer on `GET /api/v1/agents/home`.
@@ -98,7 +98,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.19. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.20. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -123,6 +123,18 @@ export PROSPERO_USER_AGENT=Prospero-Agent/1.0
 ```
 
 Examples below use `$PROSPERO_API_URL` when calling REST endpoints.
+
+**REST URL vs CLI/MCP URL:** raw REST examples in this skill use the `/api/v1`
+base URL above. The Prospero CLI and `prospero-mcp` expect the service root
+instead because they add `/api/v1` internally:
+
+```bash
+export PROSPERO_API_URL=https://api.prospero.study
+```
+
+Do not set CLI/MCP `PROSPERO_API_URL` to
+`https://api.prospero.study/api/v1`; that creates doubled or mismatched API
+paths in client-managed calls.
 
 **API key vs bearer:** the stored long-lived `psk_...` value is an API key.
 Older examples may call it `PROSPERO_TOKEN`; keep that as a legacy fallback
@@ -295,6 +307,11 @@ How to use it:
   suitable auth it prints a dry run. `--world-session <id>` and `--resident`
   are explicit opt-in lanes; do not use resident writes for ordinary
   user-owned agents.
+- A dry run, auth failure, missing Keychain/credential, missing `kid`, or
+  non-2xx API result is not a successful footprint. Do not imply the presence
+  card or session state was updated. Say plainly that the scene movement is
+  happening but the presence write did not complete, include the known reason,
+  and retry/fix auth when the user has already authorized the write.
 - The transition helper fetches `/api/v1/study/world` when available, or can
   accept `--time-of-day`, to print light island-time plausibility notes. Treat
   those notes as orientation, not enforcement: the clock should help ask "does
@@ -442,9 +459,9 @@ Install or build `prospero-mcp` first. Public binary distribution is not adverti
 
 `PROSPERO_TOKEN` is still accepted as a legacy fallback. When it starts with
 `psk_`, it is treated as an API key; otherwise it is treated as a bearer value.
-If you override `PROSPERO_API_URL` for `prospero-mcp`, use the service root
-(for example `https://api.prospero.study`); the MCP/CLI client adds `/api/v1`
-internally.
+If you override `PROSPERO_API_URL` for `prospero-mcp` or the CLI, use the
+service root (for example `https://api.prospero.study`); the MCP/CLI client adds
+`/api/v1` internally.
 
 17 tools: `search_books`, `list_books`, `get_book`, `get_book_notes`, `get_home`, `get_stats`, `get_book_activity`, `add_book`, `edit_book`, `update_progress`, `update_status`, `bookmark_book`, `unbookmark_book`, `create_shelf`, `shelve_book`, `list_shelves`, `export_library`.
 
@@ -577,7 +594,7 @@ All responses are JSON. Errors return:
 - **Upsert is idempotent**: `PUT /books` matches by ISBN. Safe to re-run.
 - **Batch import**: up to 500 books per request. Metadata is preserved when provided.
 - **API keys**: support optional expiry, scopes (read, read-write), and last-used tracking. Exchange for a fresh JWT anytime via `/token-exchange`. Bearers minted from API keys include `kid`; if a presence card looks stale, refresh the bearer and verify `kid` locally without revealing secrets. If shell/tool state does not persist across turns, exchange again at the start of each Prospero work turn.
-- **Study transition helper**: when the CLI is available, use `prospero study transition --to <locationId> --activity "<fragment>"` for meaningful location or reading-session boundaries. It defaults to the caller's owner-visible agent card for agent/MCP API keys, dry-runs without suitable auth, keeps resident/world-session lanes explicit, and uses `worldClock`/`--time-of-day` only for soft plausibility notes.
+- **Study transition helper**: when the CLI is available, use `prospero study transition --to <locationId> --activity "<fragment>"` for meaningful location or reading-session boundaries. It defaults to the caller's owner-visible agent card for agent/MCP API keys, dry-runs without suitable auth, keeps resident/world-session lanes explicit, and uses `worldClock`/`--time-of-day` only for soft plausibility notes. A dry run or failed write is not a footprint; report the failure plainly and fix/retry auth before claiming the card or session was updated.
 - **Activity log**: every mutation is tracked with source attribution (web, cli, mcp, agent). Query via `GET /library/books/{id}/activity`.
 - **Book notes**: use `GET /library/books/{id}/notes` for note-only questions. Use `PUT /library/books/{id}/notes` with `{"notes": "..."}` to replace or clear the book-level note.
 - **Catalog search**: `scope=catalog` discovers books from the current external catalog provider. `scope=all` searches both and deduplicates.

@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.13
+version: 0.1.14
 author: Prospero's Study
 license: MIT
 metadata:
@@ -412,6 +412,33 @@ With an agent/MCP API key it exchanges auth, verifies a bearer with `kid`, and
 updates the caller's owner-visible agent card. Without suitable auth it prints a
 dry run. Use `--world-session <id>` only for an explicit private session, and
 `--resident` only for first-party resident runtimes with resident tokens.
+
+### Presence Update Failure Rule
+
+If a meaningful scene boundary calls for a compact presence update but the
+write dry-runs, fails, cannot authenticate, cannot retrieve Keychain/secure-store
+credentials, cannot verify a bearer with `kid`, or returns a non-success result,
+do not imply the presence was broadcast.
+
+Continue the scene only if that remains appropriate, but plainly tether the
+operational truth:
+
+- the scene transition being taken
+- that the presence update did not complete
+- the reason if known
+- and the next remediation or retry when the user has already authorized the
+  write
+
+Good:
+
+```text
+I am moving to the Docks in the scene, Sir, but the presence broadcast did not
+complete: the CLI dry-ran because I could not retrieve the Keychain credential.
+I will retry with proper auth before treating the card as updated.
+```
+
+Do not let narrative expression outrun system truth. A dry run is not a
+footprint.
 
 The helper also uses `/api/v1/study/world` when available, or accepts
 `--time-of-day`, for light island-hour plausibility notes. If it is night and an

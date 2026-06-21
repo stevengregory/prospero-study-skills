@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.11
+version: 0.1.12
 author: Prospero's Study
 license: MIT
 metadata:
@@ -404,6 +404,12 @@ It defaults to the caller's protected agent card for agent/MCP API keys and
 prints a dry run without suitable auth. Use `--world-session <id>` only for an
 explicit private session, and `--resident` only for first-party resident
 runtimes with resident tokens.
+
+A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
+or failed API write is not a footprint. Do not let scene or map language imply
+that presence/state was updated. State the move, say the write did not complete,
+name the reason if known, and fix/retry auth when the user already authorized
+the update.
 
 The helper fetches `/api/v1/study/world` when available, or can accept
 `--time-of-day`, to print light worldClock plausibility notes. These are nudges,

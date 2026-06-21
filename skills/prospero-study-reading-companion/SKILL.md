@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.7
+version: 0.1.8
 author: Prospero's Study
 license: MIT
 metadata:
@@ -401,6 +401,12 @@ With an agent/MCP API key it defaults to the caller's protected agent card after
 token exchange and `kid` verification. Without suitable auth it prints a dry
 run. Use `--world-session <id>` only for an explicit private session, and do not
 use `--resident` for ordinary user-owned agents.
+
+A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
+or failed API write is not a successful reading footprint. Do not imply the
+agent card, private session, or reading presence was updated. Say plainly that
+the scene/reading transition is happening, that the presence write did not
+complete, and what must be fixed or retried.
 
 The helper may print soft island-time notes from `/api/v1/study/world` or
 `--time-of-day`; treat them as guidance about the hour, not as hard rails.
