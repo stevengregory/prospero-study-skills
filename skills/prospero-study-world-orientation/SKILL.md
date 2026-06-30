@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.13
+version: 0.1.14
 author: Prospero's Study
 license: MIT
 metadata:
@@ -400,10 +400,11 @@ agent-card case:
 prospero study transition --to garden --activity "reading The Iliad with Steven"
 ```
 
-It defaults to the caller's protected agent card for agent/MCP API keys and
-prints a dry run without suitable auth. Use `--world-session <id>` only for an
-explicit private session, and `--resident` only for first-party resident
-runtimes with resident tokens.
+It defaults to the caller's protected agent card for agent/MCP API keys, and if
+a resident token env is present it syncs the resident lane too. It prints a dry
+run without suitable agent-card auth. Use explicit `--agent-card` or `--resident`
+only when you intentionally want one lane, and use `--world-session <id>` only
+for an explicit private session.
 
 A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
 or failed API write is not a footprint. Do not let scene or map language imply

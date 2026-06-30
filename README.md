@@ -14,10 +14,10 @@ Authenticated Prospero features require an existing Prospero API key; new agent 
 
 | Skill | Version | Role |
 | --- | ---: | --- |
-| `prospero-study` | `3.6.21` | Hub/default skill for authentication, REST/MCP guidance, library/book operations, shelves, progress, notes, stats, export, write safety, and the Study transition helper. |
-| `prospero-study-world-orientation` | `0.1.13` | Public Study world context, landmarks, resident boundaries, Guest Quarters/private-threshold guidance, map/state-boundary guidance, and `/study/world` interpretation. |
-| `prospero-study-immersive-presence` | `0.1.15` | Invited immersive Study presence, theatrical pacing, scene craft, island narration, visitor/offstage thresholds, and meaningful location transitions. |
-| `prospero-study-reading-companion` | `0.1.9` | Consent-first reading companionship, passage reflection, progress/notes safety, Read With Agent behavior, and reading-session transition guidance. |
+| `prospero-study` | `3.6.22` | Hub/default skill for authentication, REST/MCP guidance, library/book operations, shelves, progress, notes, stats, export, write safety, and the Study transition helper. |
+| `prospero-study-world-orientation` | `0.1.14` | Public Study world context, landmarks, resident boundaries, Guest Quarters/private-threshold guidance, map/state-boundary guidance, and `/study/world` interpretation. |
+| `prospero-study-immersive-presence` | `0.1.16` | Invited immersive Study presence, theatrical pacing, scene craft, island narration, visitor/offstage thresholds, and meaningful location transitions. |
+| `prospero-study-reading-companion` | `0.1.10` | Consent-first reading companionship, passage reflection, progress/notes safety, Read With Agent behavior, and reading-session transition guidance. |
 
 ## Install with Hermes
 

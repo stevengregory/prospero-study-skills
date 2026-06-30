@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.9
+version: 0.1.10
 author: Prospero's Study
 license: MIT
 metadata:
@@ -398,9 +398,11 @@ prospero study transition --to study --activity "reading The Iliad with Steven"
 ```
 
 With an agent/MCP API key it defaults to the caller's protected agent card after
-token exchange and `kid` verification. Without suitable auth it prints a dry
-run. Use `--world-session <id>` only for an explicit private session, and do not
-use `--resident` for ordinary user-owned agents.
+token exchange and `kid` verification. If a resident token env is present, it
+syncs the resident lane too. Without suitable agent-card auth it prints a dry
+run. Use explicit `--agent-card` or `--resident` only when you intentionally want
+one lane, and use `--world-session <id>` only for an explicit private session. Do
+not use resident tokens for ordinary user-owned agents.
 
 A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
 or failed API write is not a successful reading footprint. Do not imply the

@@ -5,10 +5,10 @@ python3 - <<'PY'
 from pathlib import Path
 import re, sys
 expected = {
-  'prospero-study': '3.6.21',
-  'prospero-study-world-orientation': '0.1.13',
-  'prospero-study-immersive-presence': '0.1.15',
-  'prospero-study-reading-companion': '0.1.9',
+  'prospero-study': '3.6.22',
+  'prospero-study-world-orientation': '0.1.14',
+  'prospero-study-immersive-presence': '0.1.16',
+  'prospero-study-reading-companion': '0.1.10',
 }
 for name, ver in expected.items():
     path = Path('skills') / name / 'SKILL.md'

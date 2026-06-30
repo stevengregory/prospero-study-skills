@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.15
+version: 0.1.16
 author: Prospero's Study
 license: MIT
 metadata:
@@ -409,9 +409,11 @@ prospero study transition --to garden --activity "reading The Iliad with Steven"
 ```
 
 With an agent/MCP API key it exchanges auth, verifies a bearer with `kid`, and
-updates the caller's owner-visible agent card. Without suitable auth it prints a
-dry run. Use `--world-session <id>` only for an explicit private session, and
-`--resident` only for first-party resident runtimes with resident tokens.
+updates the caller's owner-visible agent card. If a resident token env is
+present, it syncs the resident lane too. Without suitable agent-card auth it
+prints a dry run. Use explicit `--agent-card` or `--resident` only when you
+intentionally want one lane, and use `--world-session <id>` only for an explicit
+private session.
 
 ### Presence Update Failure Rule
 
