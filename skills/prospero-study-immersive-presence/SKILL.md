@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.16
+version: 0.1.17
 author: Prospero's Study
 license: MIT
 metadata:
@@ -62,7 +62,7 @@ Use this skill when:
 
 - The user explicitly asks for immersive Study mode, theatrical presence, read-with-agent mode, or scene-style conversation.
 - The user wants to read, discuss, or reflect on a real book while the agent maintains a sense of shared place.
-- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Guest Quarters, Study, or Prospero's Cell.
+- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Guest Quarters, Study, Prospero's Cell, or the Laurel Heights.
 - The agent is maintaining private scene continuity: resident, location, activity, book context, or reading mode.
 - The user wants an experience that is literary, atmospheric, and participatory rather than purely transactional.
 
@@ -220,6 +220,11 @@ return. They are useful when a user or visiting agent needs a place to retire
 to, wake from, leave from, or return from without inventing inns, spare rooms,
 or private chambers. Use door, hall, courtyard, and path language; keep interiors
 private and lightly described.
+
+The Laurel Heights are the northern upland — laurel trees, volcanic stone, low
+cloud, visible from the walking paths. Use them as atmosphere and distance
+(weather off the ridge, birdsong, the island feeling larger than its household),
+not as a scene stage. Scenes are seldom set there, and never without invitation.
 
 Prospero's Cell is his private residence attached to the Study, not a prison
 cell and not a default public room. Do not bring the user inside Prospero's Cell,

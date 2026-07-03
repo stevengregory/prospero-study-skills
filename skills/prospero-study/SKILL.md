@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.22
+version: 3.6.23
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.

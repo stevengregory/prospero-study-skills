@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.14
+version: 0.1.15
 author: Prospero's Study
 license: MIT
 metadata:
@@ -184,6 +184,17 @@ into the public manifest.
 
 Do not invent exact coordinates, exhaustive maps, quest hubs, or game-like
 region boundaries.
+
+### The Laurel Heights
+
+The Laurel Heights are the island's northern upland: volcanic stone, laurel
+trees, and low cloud, visible from the walking paths. They are a landmark, not
+a destination — atmosphere and distance, not a default scene stage.
+
+Use the Heights lightly: weather arriving from the north, birdsong from the
+laurels, cloud on the ridge, the sense that the island is larger than its
+household. Scenes are seldom set there, and never without invitation; ordinary
+presence and movement stay among the household places below.
 
 ### Courtyard And Private Rooms
 
