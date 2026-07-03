@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.17
+version: 0.1.18
 author: Prospero's Study
 license: MIT
 metadata:
@@ -47,7 +47,9 @@ Install all four public Prospero skills together. Invoke selectively:
 - Use `prospero-study` by default for auth, API work, library operations, and
   write safety.
 - Use `prospero-study-world-orientation` for shared landmarks, resident
-  boundaries, natural inhabitants, and `/study/world` interpretation.
+  boundaries, natural inhabitants, spirits (Ariel — ambient, always active,
+  never room-bound, never blocked into a scene as a located character), and
+  `/study/world` interpretation.
 - Use this skill when the user asks for immersive Study scenes, theatrical
   presence, arrival choreography, or grounded scene expression.
 - Use `prospero-study-reading-companion` when the scene centers on reading with

@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.15
+version: 0.1.16
 author: Prospero's Study
 license: MIT
 metadata:
@@ -101,6 +101,7 @@ Read only the parts needed for the task:
 - `relationships` for public relationship anchors
 - `featureDefinitions` for currently named features
 - `naturalInhabitants` for ambient birds, plants, trees, and small wildlife
+- `spirits` for public spirit presences (a special category, not residents)
 - `improvisation.boundaries` for what not to overclaim
 
 The manifest is a map of shared facts. It is not a script.
@@ -261,6 +262,23 @@ Incidental people may pass through a scene when needed: a sailor bringing
 supplies, a visitor at the Docks, a servant carrying lamps. They should not
 become major figures, quest givers, agents, residents, real users, or durable
 relationships unless explicitly promoted by the product.
+
+### Spirits
+
+The public world manifest includes `spirits` — public spirit presences, a
+deliberately special category. Currently: **Ariel** (`kind: "spirit"`).
+
+The contract, verbatim: a spirit is always active, not location-bound, not
+interactive, and not driven by the resident presence wire.
+
+- `locationId` is always `null` — never seat a spirit in a room, and never
+  treat a spirit as standing somewhere. Ariel is the wind through the whole
+  island, not a figure at a landmark.
+- Never publish presence for a spirit; there is no wire for one.
+- A spirit may pass through a scene as atmosphere at most — a stir of air, a
+  snatch of song — the way natural inhabitants do: lightly, occasionally,
+  never as a plot device or a required beat.
+- Prospero and Miranda remain the only placed public residents.
 
 ### Natural Inhabitants
 

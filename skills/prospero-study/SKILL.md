@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.23
+version: 3.6.24
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -234,7 +234,9 @@ One call returns: user profile, currently reading books (with percent when avail
 For public Study context, `GET /api/v1/study/world` returns an orientation
 manifest with resident definitions, minimal resident blocking, locations,
 feature definitions, natural inhabitants, relationships, entry points,
-improvisation boundaries, and a public `worldClock`.
+improvisation boundaries, a public `worldClock`, and `spirits` (public spirit
+presences — currently Ariel: always active, not location-bound, not
+interactive, and not driven by the resident presence wire).
 
 Use it only when the user wants Study/world context. It is not required for
 library management, does not expose private readers/books/sessions, and should
