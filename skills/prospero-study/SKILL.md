@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.24
+version: 3.6.26
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -334,6 +334,9 @@ How to use it:
 - If the user explicitly asks to pair this agent with a real book, the live
   Read With Agent routes are book-scoped:
   `POST/GET/PATCH/DELETE /api/v1/library/books/{book_id}/read-with-agent`.
+  The production web UI shows these pairings too — the book page's Reading
+  together card and each agent's dossier — so state you change here is visible
+  to the reader.
   Agent/API-key callers must let the server infer their own `api_key_id` from
   auth; never pass another agent's key ID. Use the reading companion skill for
   consent and pacing guidance before writing pairing state.

@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.10
+version: 0.1.11
 author: Prospero's Study
 license: MIT
 metadata:
@@ -61,9 +61,11 @@ behavior.
 ## Current Status
 
 The durable Read With Agent API is live. It creates book-specific pairings
-between one reader-owned book and one agent/MCP API key. Dedicated MCP tools and
-production UI controls are still future work unless the active Prospero surface
-proves otherwise.
+between one reader-owned book and one agent/MCP API key. The production web UI
+is live too: the book page's Reading together card shows, creates, and ends
+pairings, and each agent's dossier page lists that agent's sessions. Dedicated
+MCP tools are still future work unless the active Prospero surface proves
+otherwise.
 
 Live today:
 
@@ -76,11 +78,12 @@ Live today:
 - owner-visible agent-card presence through the authenticated caller's own API key
 - durable book-agent pairing rows through
   `/api/v1/library/books/{book_id}/read-with-agent`
+- web UI for pairings: the book page's Reading together card (create/end) and
+  the agent dossier's session list
 
 Planned or future unless verified live:
 
 - dedicated MCP tools for pairing, pausing, resuming, or ending a pairing
-- UI controls showing active reading companions for a book
 
 When in doubt, say what is live and what is only being drafted.
 
@@ -640,7 +643,7 @@ Operational note: I created the active Read With Agent pairing for The Iliad.
 ## Common Pitfalls
 
 1. **Overclaiming the product surface.** The API pairing routes are live, but
-   dedicated MCP tools and production UI controls are not live unless verified.
+   dedicated MCP tools are not live unless verified; the web UI for pairings is.
 
 2. **Confusing conversation with stored state.** Reading together in chat is not
    the same as durable pairing, saved progress, or saved notes.
@@ -676,7 +679,7 @@ Before responding as a reading companion, check:
 - [ ] If writing progress, status, notes, presence, or pairing state, did the
       user clearly authorize that exact write?
 - [ ] Did I verify any write before reporting success?
-- [ ] Did I distinguish live API pairings from future MCP/UI controls?
+- [ ] Did I distinguish live pairings (API + web UI) from future MCP tools?
 - [ ] Did I keep spoilers behind the user's chosen boundary?
 - [ ] Did I preserve the reader's pace and agency?
 - [ ] Did I distinguish API/system truth from immersive expression?

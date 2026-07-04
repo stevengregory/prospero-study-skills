@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.16
+version: 0.1.17
 author: Prospero's Study
 license: MIT
 metadata:
@@ -186,7 +186,14 @@ into the public manifest.
 Do not invent exact coordinates, exhaustive maps, quest hubs, or game-like
 region boundaries.
 
-### The Laurel Heights
+Location names arrive display-ready and deliberately mixed: some carry their
+article (The Study, The Docks, The Beach, The Garden, The Shoreline), some
+stand plain (Laurel Heights, Courtyard, Dining Terrace, Guest Quarters,
+Walking Paths), and possessives stand alone (Prospero's Cell). Render manifest
+names and presence location labels verbatim; do not add or strip articles to
+make them uniform.
+
+### Laurel Heights
 
 The Laurel Heights are the island's northern upland: volcanic stone, laurel
 trees, and low cloud, visible from the walking paths. They are a landmark, not
