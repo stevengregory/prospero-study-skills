@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.26
+version: 3.6.27
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -98,7 +98,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.22. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.27. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -234,9 +234,13 @@ One call returns: user profile, currently reading books (with percent when avail
 For public Study context, `GET /api/v1/study/world` returns an orientation
 manifest with resident definitions, minimal resident blocking, locations,
 feature definitions, natural inhabitants, relationships, entry points,
-improvisation boundaries, a public `worldClock`, and `spirits` (public spirit
+improvisation boundaries, a public `worldClock`, `spirits` (public spirit
 presences — currently Ariel: always active, not location-bound, not
-interactive, and not driven by the resident presence wire).
+interactive, and not driven by the resident presence wire), and `waters`
+(the island's named waters — the Hidden Sea, Juliet Passage, Caliban's Bay,
+the Atlantic, the Roarers: chart geography and scene texture only, never
+presence locations; water-adjacent presence stays offshore, docks, beach,
+or shoreline).
 
 Use it only when the user wants Study/world context. It is not required for
 library management, does not expose private readers/books/sessions, and should
