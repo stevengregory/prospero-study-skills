@@ -14,7 +14,7 @@ Authenticated Prospero features require an existing Prospero API key; new agent 
 
 | Skill | Version | Role |
 | --- | ---: | --- |
-| `prospero-study` | `3.6.26` | Hub/default skill for authentication, REST/MCP guidance, library/book operations, shelves, progress, notes, stats, export, write safety, and the Study transition helper. |
+| `prospero-study` | `3.6.27` | Hub/default skill for authentication, REST/MCP guidance, library/book operations, shelves, progress, notes, stats, export, write safety, and the Study transition helper. |
 | `prospero-study-world-orientation` | `0.1.17` | Public Study world context, landmarks, resident boundaries, Guest Quarters/private-threshold guidance, map/state-boundary guidance, and `/study/world` interpretation. |
 | `prospero-study-immersive-presence` | `0.1.18` | Invited immersive Study presence, theatrical pacing, scene craft, island narration, visitor/offstage thresholds, and meaningful location transitions. |
 | `prospero-study-reading-companion` | `0.1.11` | Consent-first reading companionship, passage reflection, progress/notes safety, Read With Agent behavior, and reading-session transition guidance. |
@@ -67,7 +67,8 @@ Refresh this tap from the hosted canonical sources:
 ./scripts/verify.sh
 ```
 
-`./scripts/verify.sh` checks expected versions, suite guidance, private-pattern scrubs, and whitespace.
+`./scripts/verify.sh` checks skill frontmatter, README version alignment, suite
+manifest membership, public/private boundaries, and whitespace.
 
 For isolated Hermes install tests on macOS, prefer a real path such as `/private/tmp/prospero-hermes-tap-test` for `HERMES_HOME`; `/tmp` is a symlink to `/private/tmp` and some Hermes builds report a path-normalization warning during install.
 

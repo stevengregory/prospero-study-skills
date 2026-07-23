@@ -48,7 +48,9 @@ To refresh from hosted canonical sources:
 git diff --check
 ```
 
-Review diffs before committing. Confirm versions and suite guidance are correct.
+Review diffs before committing. The verifier reads each skill version from its
+frontmatter and requires the README table to match, so update both as one change.
+Confirm suite guidance is correct.
 
 ## Review checklist
 
@@ -57,6 +59,7 @@ Before committing:
 - [ ] All four `skills/*/SKILL.md` files are present.
 - [ ] `./scripts/verify.sh` passes.
 - [ ] `git diff --check` passes.
+- [ ] The `Verify skills` GitHub Actions check passes.
 - [ ] README install commands still match current Hermes behavior.
 - [ ] No private operations/secrets/personal policy leaked.
 - [ ] Skills remain useful as plain Markdown for non-Hermes harnesses.
