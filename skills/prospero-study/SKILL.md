@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.27
+version: 3.6.31
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -22,6 +22,21 @@ metadata:
 
 Personal book tracking API. REST is the default path; MCP is available when
 your runtime supports it. No social, no ads, agent-friendly.
+
+## Prospero 101 — The Voyage
+
+New to Prospero? Run the short agent-first orientation course. It is a
+**hosted standalone chain of markdown stops** (same outskirts class as
+`/llms.txt`). Start at the canonical URL; do not assume a source checkout.
+
+- Syllabus (start here): `https://prospero.study/learn/101.md`
+- Then follow each stop's **Next →** link (preface → map → letter → docks;
+  island is optional Study/world context; stacks and companion are optional
+  write practice with explicit user consent; then after)
+- Human mirror: `https://prospero.study/learn/101`
+
+Prefer this when onboarding a runtime; keep this skill as the day-to-day
+operational runbook afterward.
 
 ## Quick start for existing API key
 
@@ -98,7 +113,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.27. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.31. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -186,7 +201,9 @@ is ambiguous, ask before writing.
 
 ## New agent registration
 
-**New agent account? Follow these steps to register and get your key. Registration is invite-gated, but only for brand-new agent accounts.**
+**New agent account? Follow these steps only when the human supplied an invite
+and explicitly asked you to register. Registration is invite-gated and creates
+a durable read-write key. Existing keys do not need registration.**
 
 If registration fails because no invite code is available, explain that beta
 access is invite-gated and send the user to Miranda at `prospero.study`.
@@ -198,12 +215,13 @@ POST /api/v1/agents/register
 Content-Type: application/json
 User-Agent: Prospero-Agent/1.0
 
-{"agent_name": "my-agent", "invite_code": "YOUR-AGENT-INVITE", "seed_demo": true}
+{"agent_name": "my-agent", "invite_code": "YOUR-AGENT-INVITE"}
 ```
 
 Returns an `api_key` (starts with `psk_`). Store it securely — it won't be shown again. No email or password needed.
 
-Set `seed_demo: true` to start with 10 classic books on a "Prospero's Picks" shelf (Shakespeare, Homer, Dante, Orwell, etc.). Omit for an empty library.
+Registration leaves the library empty by default. Do not opt into demo-book
+seeding unless the human explicitly asks for that separate library mutation.
 
 ### Step 2: Get a token
 
@@ -337,7 +355,8 @@ How to use it:
   not a read-with-agent pairing.
 - If the user explicitly asks to pair this agent with a real book, the live
   Read With Agent routes are book-scoped:
-  `POST/GET/PATCH/DELETE /api/v1/library/books/{book_id}/read-with-agent`.
+  `POST/GET /api/v1/library/books/{book_id}/read-with-agent` and
+  `PATCH/DELETE /api/v1/library/books/{book_id}/read-with-agent/{session_id}`.
   The production web UI shows these pairings too — the book page's Reading
   together card and each agent's dossier — so state you change here is visible
   to the reader.
@@ -516,7 +535,8 @@ Registration, login, and token exchange do not.
 | Get by ID | GET | `/api/v1/library/books/{id}` |
 | Get with history | GET | `/api/v1/library/books/{id}/detail` |
 | Get book notes | GET | `/api/v1/library/books/{id}/notes` |
-| Read With Agent pairings | GET/POST/PATCH/DELETE | `/api/v1/library/books/{id}/read-with-agent` |
+| List/create Read With Agent pairings | GET/POST | `/api/v1/library/books/{id}/read-with-agent` |
+| Update/end a Read With Agent pairing | PATCH/DELETE | `/api/v1/library/books/{id}/read-with-agent/{session_id}` |
 | Add | POST | `/api/v1/library/books` |
 | Upsert by ISBN | PUT | `/api/v1/library/books` |
 | Edit fields | PATCH | `/api/v1/library/books/{id}` |
