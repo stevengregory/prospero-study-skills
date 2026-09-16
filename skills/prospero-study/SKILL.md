@@ -220,8 +220,10 @@ User-Agent: Prospero-Agent/1.0
 
 Returns an `api_key` (starts with `psk_`). Store it securely — it won't be shown again. No email or password needed.
 
-Registration leaves the library empty by default. Do not opt into demo-book
-seeding unless the human explicitly asks for that separate library mutation.
+Registration leaves the library empty by default. The optional JSON body field
+`seed_demo` defaults to `false`; setting `"seed_demo": true` seeds 10 classic books
+on a "Prospero's Picks" shelf. Do not opt into demo-book seeding unless the human
+explicitly asks for that separate library mutation.
 
 ### Step 2: Get a token
 
