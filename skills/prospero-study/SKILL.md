@@ -5,7 +5,7 @@ description: >
   Prospero's Study authentication, REST/MCP guidance, library
   management, catalog discovery, book search/add/import/enrichment,
   shelves, progress, notes, stats, export, and explicit write-safety.
-version: 3.6.31
+version: 3.6.32
 author: Prospero's Study
 license: MIT
 compatibility: Requires network access to Prospero's Study API instance.
@@ -113,7 +113,7 @@ and do not overwrite private profile or ops overlays.
 Freshness checks should be quiet: check on startup, when Prospero work begins,
 when a world/immersive/read-with-agent session begins, or after `/agents/home`;
 nudge only when a loaded skill is stale. A gentle nudge is enough: "I have
-`prospero-study` 3.6.1 loaded; current is 3.6.31. I should update before
+`prospero-study` 3.6.1 loaded; current is 3.6.32. I should update before
 continuing."
 
 Public canonical skills (`prospero-study`, `prospero-study-world-orientation`,
@@ -629,7 +629,8 @@ All responses are JSON. Errors return:
 
 - **One call for the full picture**: `GET /stats/snapshot` returns everything — total books, books by status, pages read, streaks, records.
 - **One call for full export**: `GET /export/json` returns the complete library graph — books, shelves, progress history, metadata.
-- **Native JSON import**: `POST /library/import/json` accepts the export shape unchanged (`{books: [{book, progress}, ...]}`). Restores pages, dates, metadata, and progress history. Chunk at ≤500 books per request.
+- **Native JSON restore**: `POST /api/v1/library/import/json` accepts the full export shape (`{books: [{book, progress, portable_metadata}, ...], shelves: [...]}`). Restores catalog fields, dates/status, notes, bookmarks, shelf memberships, empty shelves, and history. Each book commits atomically with competing lifecycle writes; existing history/custom memberships are retained, and retries do not append duplicate history. Match caller-owned exported IDs first, then exact ISBN (without collapsing editions through provider work IDs), or title/author when no ISBN is present. Metadata snapshots remain reader-owned.
+- **Restore results and batching**: direct API callers must send ≤500 books per request; include top-level shelf definitions with the final batch. `prospero import json <file>` and the browser batch automatically. The response reports `imported`, `skipped` (existing books updated), `failed`, `progress_restored`, `shelves_restored`, `shelves_failed`, and per-item `errors`. Check both failure counts and errors; HTTP 200 alone does not mean a complete restore. The CLI returns a nonzero exit status on partial failure and reports confirmed batches if interrupted. Keep the original backup when retrying.
 - **Upsert is idempotent**: `PUT /books` matches by ISBN. Safe to re-run.
 - **Batch import**: up to 500 books per request. Metadata is preserved when provided.
 - **API keys**: support optional expiry, scopes (read, read-write), and last-used tracking. Exchange for a fresh JWT anytime via `/token-exchange`. Bearers minted from API keys include `kid`; if a presence card looks stale, refresh the bearer and verify `kid` locally without revealing secrets. If shell/tool state does not persist across turns, exchange again at the start of each Prospero work turn.
