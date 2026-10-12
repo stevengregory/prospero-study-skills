@@ -7,7 +7,7 @@ description: >
   natural inhabitants, and /api/v1/study/world interpretation
   without adopting resident voice. Companion in the Prospero Skills
   Suite; install with the suite and invoke selectively.
-version: 0.1.17
+version: 0.1.18
 author: Prospero's Study
 license: MIT
 metadata:
@@ -95,16 +95,20 @@ Read only the parts needed for the task:
   `locationId`, `status`, and `lastSeenAt`
 - `worldClock` for the shared island timezone, local date/time, time of day,
   season, and UTC offset
-- `locations` for shared landmarks
-- `connections` for ordinary movement between public landmarks
+- `locations` for shared landmarks. Each location has its own `connections`
+  and `features`; those are not top-level fields
 - `entryPoints` for plausible arrivals
 - `relationships` for public relationship anchors
 - `featureDefinitions` for currently named features
 - `naturalInhabitants` for ambient birds, plants, trees, and small wildlife
+- `waters` for named chart geography and scene texture (never presence
+  locations)
 - `spirits` for public spirit presences (a special category, not residents)
 - `improvisation.boundaries` for what not to overclaim
 
-The manifest is a map of shared facts. It is not a script.
+The manifest is a map of shared facts. It is not a script. The public 3D island
+at `https://prospero.study/island` is a visual walk of these landmarks; walking
+it does not publish presence.
 
 ## World Clock
 
@@ -148,14 +152,22 @@ Each row contains only:
 
 - `id`: the public resident id
 - `locationId`: the current public world location id, or `null`
-- `status`: `active`, `quiet`, or `offstage`
+- `status`: `active`, `quiet`, or `offstage` on this world projection
 - `lastSeenAt`: when the resident was last publicly seen, or `null`
 
-Status meanings:
+World `residents[]` status meanings:
 
 - `active`: publicly present / may be addressable
 - `quiet`: present as atmosphere, not necessarily available
-- `offstage`: known resident, not publicly placed
+- `offstage`: unavailable or withdrawn; a last published `locationId` may
+  remain and does not imply current presence
+
+Owner-visible agent-card and resident-presence **writes** accept `active`,
+`quiet`, and `away`. `offstage` is accepted as an alias and stored as `away`.
+Empty agent-card status defaults to `active`. Agent-card
+`PUT /api/v1/agents/me/presence` requires **write scope** and an `agent` or
+`mcp` API key. Public resident-presence writes require a separate resident
+token, not an API key.
 
 Resident presence is a lamp in the window, not a puppet on the stage.
 
@@ -195,14 +207,20 @@ make them uniform.
 
 ### Laurel Heights
 
-The Laurel Heights are the island's northern upland: volcanic stone, laurel
-trees, and low cloud, visible from the walking paths. They are a landmark, not
-a destination — atmosphere and distance, not a default scene stage.
+The Laurel Heights (`laurel-heights`) are the island's northern upland:
+volcanic stone, laurel trees, and low cloud, visible from the inner paths
+(manifest location **Walking Paths**, id `walking-paths`).
+
+They are visitable in the public 3D renderer at
+`https://prospero.study/island` (Places, and a Garden passage through the
+Inner Paths direction). That is visual travel only. For agent-led scenes they
+stay atmosphere and distance, not a default stage: seldom entered, and never
+without invitation. Ordinary presence and movement stay among the household
+places below. Walking the 3D island does not publish presence.
 
 Use the Heights lightly: weather arriving from the north, birdsong from the
 laurels, cloud on the ridge, the sense that the island is larger than its
-household. Scenes are seldom set there, and never without invitation; ordinary
-presence and movement stay among the household places below.
+household.
 
 ### Courtyard And Private Rooms
 
@@ -286,6 +304,17 @@ interactive, and not driven by the resident presence wire.
   snatch of song — the way natural inhabitants do: lightly, occasionally,
   never as a plot device or a required beat.
 - Prospero and Miranda remain the only placed public residents.
+
+### Waters
+
+The public world manifest includes `waters` — named chart geography and scene
+texture, not presence locations. Current named waters: The Hidden Sea, Juliet
+Passage, Caliban's Bay, The Atlantic, The Roarers.
+
+Orient by them in prose. Do not use a water id as `locationId`, a world-session
+destination, or a resident anchor. Water-adjacent or arrival presence stays on
+`offshore`, `docks`, `beach`, or `shoreline`. Smaller waters (the arrival-bay
+anchorage, the inland tarn and stream) stay unnamed on purpose.
 
 ### Natural Inhabitants
 
@@ -419,47 +448,16 @@ presence through:
 PUT /api/v1/agents/me/presence
 ```
 
-Send compact state only. Do not send prose, transcripts, private notes, or
-relationship interpretation.
+That write needs **write scope** and an `agent` or `mcp` key. Send compact
+state only. Do not send prose, transcripts, private notes, or relationship
+interpretation.
 
-Meaningful movement should leave a compact footprint. When an
-immersive/read-with-agent scene crosses a real location boundary, such as Docks
--> Garden, Garden -> Courtyard, Courtyard -> Study, Study -> Dining Terrace, or
-when a reading session begins or ends, treat that as a state boundary. If the
-caller has an active private world session or owner-visible agent-card context,
-update compact state/presence before or after the scene reply.
-
-When the Prospero CLI is available, prefer the transition helper for the common
-agent-card case:
-
-```bash
-prospero study transition --to garden --activity "reading The Iliad with Steven"
-```
-
-It defaults to the caller's protected agent card for agent/MCP API keys, and if
-a resident token env is present it syncs the resident lane too. It prints a dry
-run without suitable agent-card auth. Use explicit `--agent-card` or `--resident`
-only when you intentionally want one lane, and use `--world-session <id>` only
-for an explicit private session.
-
-A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
-or failed API write is not a footprint. Do not let scene or map language imply
-that presence/state was updated unless the write actually landed.
-
-Presence is a tether, not a gate. A failed or delayed presence update should
-degrade the visible card, not the scene. In ordinary immersive use, continue the
-scene gracefully and retry the compact update quietly when possible. Do not
-mention the status problem by default.
-
-Mention the issue only when the user asks about presence/status, visible
-presence is central to the task, repeated retries fail and the user can act, or
-the user is explicitly debugging/administering. For ordinary users, preserve the
-experience. For admins/debugging, expose the precise cause and retry path.
-
-The helper fetches `/api/v1/study/world` when available, or can accept
-`--time-of-day`, to print light worldClock plausibility notes. These are nudges,
-not rails: island time can suggest that dinner on the Dining Terrace is
-unlikely at 3am, but it does not forbid intentional scenes.
+Meaningful movement should leave a compact footprint. When a scene crosses a
+real location boundary, or a reading session begins or ends, treat that as a
+state boundary. Follow the hub skill (`prospero-study`) for the CLI transition
+helper, dry-run vs landed write, and the tether rule (a failed presence update
+degrades the card, not the scene). This skill owns *where* a footprint may
+land, not the HTTP/CLI mechanics.
 
 This is a light map-readiness habit, not autonomous simulation. Do not write
 state for every gesture, sensory detail, or minor movement within the same
@@ -470,7 +468,8 @@ such as `At the Docks` or `In the Study`. Send `activity` as the sentence
 fragment that should appear after the comma, such as `available for counsel`,
 `on call`, or `reading The Iliad with Steven`. Preserve proper nouns and
 acronyms; do not title-case every clause or depend on the frontend to
-blanket-lowercase it.
+blanket-lowercase it. Status: `active`, `quiet`, or `away`; `offstage` is
+stored as `away`.
 
 ## Good World Behavior
 

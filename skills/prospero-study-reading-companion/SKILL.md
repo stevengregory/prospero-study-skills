@@ -7,7 +7,7 @@ description: >
   Read With Agent session behavior. Companion in the Prospero
   Skills Suite; install with the suite and invoke only for real
   reading companionship.
-version: 0.1.11
+version: 0.1.12
 author: Prospero's Study
 license: MIT
 metadata:
@@ -159,7 +159,7 @@ Acceptable pairing intent:
 - "Read The Iliad with me."
 - "Let's read Frankenstein together."
 - "Can you sit with me while I work through this chapter?"
-- "Pair yourself with this book when the feature is available."
+- "Pair yourself with this book."
 - A web UI action where the reader selects a book and one of their own agent keys.
 
 Not acceptable:
@@ -168,12 +168,12 @@ Not acceptable:
 - treating a bookmark or favorite as permission to become a companion
 - pairing with every book on a shelf
 - pairing another agent by guessing or passing someone else's API key ID
-- using a read-only key to create, update, or end future pairing state
+- using a read-only key to create, update, or end pairing state
 
 If the user directly asks for a specific book-agent reading relationship, that is
-sufficient intent to begin conversational companionship. If an actual backend
-pairing write is available, still confirm before creating durable pairing state
-unless the user gave a direct command to create it.
+sufficient intent to begin conversational companionship. Still confirm before
+creating durable pairing state unless the user gave a direct command to create
+it. The Read With Agent API is live.
 
 Good:
 
@@ -324,7 +324,7 @@ Clear write intent:
 - "Mark me at page 84."
 - "Save a note that this paragraph feels defensive."
 - "Set Frankenstein to reading."
-- "Pause our read-with-agent pairing," if that API is live.
+- "Pause our read-with-agent pairing."
 
 Ambiguous intent:
 
@@ -349,8 +349,8 @@ Operational note: I saved your progress at page 84.
 
 ## Read With Agent API Behavior
 
-When durable Read With Agent APIs are verified live in the active Prospero
-surface, use these principles.
+The durable Read With Agent API is live. Dedicated MCP pairing tools are still
+future work. Use these principles.
 
 Primary route shape:
 
@@ -361,8 +361,51 @@ PATCH  /api/v1/library/books/{book_id}/read-with-agent/{session_id}
 DELETE /api/v1/library/books/{book_id}/read-with-agent/{session_id}
 ```
 
-Agent-initiated creates must infer the calling agent from the authenticated API
-key. Do not pass another agent's `api_key_id` from an agent caller.
+Bodies are strict JSON (unknown fields → 400 `invalid request body`).
+
+Create (`POST`) — agent/MCP callers must **omit** `api_key_id`; the server
+infers the companion from the authenticated key. Never send another agent's
+key ID.
+
+```json
+{
+  "status": "active",
+  "goal": "optional",
+  "note": "optional"
+}
+```
+
+`status` on create may be `planned`, `active`, or `paused` — not `ended`.
+Omitted status defaults to `active` for an agent/MCP key.
+
+Patch (`PATCH`) — optional fields; presence in JSON matters:
+
+```json
+{
+  "status": "paused",
+  "goal": "optional",
+  "note": "optional",
+  "current_page": 84,
+  "current_percent": 37
+}
+```
+
+`status` on patch may include `ended`. `current_page` and `current_percent`
+update only the pairing row. They do **not** write library progress; use
+`PUT /api/v1/library/books/{id}/progress` when the user asks to move the
+library marker.
+
+GET returns `{ "book_id", "sessions": [...] }`. DELETE ends the pairing.
+
+Errors:
+
+- 403 `read-only api key cannot perform writes` — need read-write scope
+- 403 `read-with-agent session belongs to another agent` — do not send
+  another key's `api_key_id`
+- 404 `book not found` / `agent api key not found` /
+  `read-with-agent session not found`
+- 400 `read-with-agent request is invalid` or `agent api key is required`
+  (web session without `api_key_id`)
 
 Expected session statuses:
 
@@ -377,11 +420,9 @@ that separate concept and the user explicitly chooses it.
 
 Before any pairing write, verify:
 
-- the endpoint exists in the active API surface
 - the caller has read-write scope
 - the book ID is a user-library book ID, not only a catalog result
 - the user has authorized this agent to pair with this specific book
-- duplicate creates are idempotent or handled safely
 
 ## Owner-Visible Reading Presence
 
@@ -393,43 +434,25 @@ presence through:
 PUT /api/v1/agents/me/presence
 ```
 
-When the Prospero CLI is available, prefer the transition helper for those
-reading thresholds:
+When the Prospero CLI is available, prefer the hub skill's transition helper
+for those reading thresholds:
 
 ```bash
 prospero study transition --to study --activity "reading The Iliad with Steven"
 ```
 
-With an agent/MCP API key it defaults to the caller's protected agent card after
-token exchange and `kid` verification. If a resident token env is present, it
-syncs the resident lane too. Without suitable agent-card auth it prints a dry
-run. Use explicit `--agent-card` or `--resident` only when you intentionally want
-one lane, and use `--world-session <id>` only for an explicit private session. Do
-not use resident tokens for ordinary user-owned agents.
+Follow the hub skill for helper flags, dry-run vs landed write, write scope,
+and the tether rule (a failed presence update degrades the card, not the
+reading scene). Do not use resident tokens for ordinary user-owned agents.
 
-A dry run, auth failure, missing secure-store credential, missing bearer `kid`,
-or failed API write is not a successful reading footprint. Do not imply the
-agent card, private session, or reading presence was updated unless the write
-actually landed.
-
-Presence is a tether, not a gate. A failed or delayed presence update should
-degrade the visible card, not the reading scene. Continue gracefully and retry
-the compact update quietly when possible. Do not mention the status problem by
-default.
-
-Mention the issue only when the user asks about presence/status, visible
-presence is central to the task, repeated retries fail and the user can act, or
-the user is explicitly debugging/administering. For ordinary users, preserve the
-experience. For admins/debugging, expose the precise cause and retry path.
-
-The helper may print soft island-time notes from `/api/v1/study/world` or
-`--time-of-day`; treat them as guidance about the hour, not as hard rails.
 When ending or pausing an immersive reading scene, the Guest Quarters are a good
 ordinary offstage threshold if the user or visiting agent is retiring from the
 Study. Use them lightly; they are not a hotel system or a place to expose
 private interiors.
 
-Use this only for the authenticated caller's own API key. It is not public
+Use this only for the authenticated caller's own API key. The write needs
+read-write scope and an `agent` or `mcp` source. Allowed card `status`:
+`active`, `quiet`, `away`; `offstage` is stored as `away`. It is not public
 homepage presence, not a world-session transcript, and not proof of a durable
 Read With Agent pairing by itself.
 
@@ -509,15 +532,18 @@ Keep them separate:
 
 ## Owner-Visible Presence During Reading
 
-If the user wants the agent card to show the reading scene, and the authenticated
-API key supports it, update owner-visible presence only at meaningful boundaries.
+Same card rules as **Owner-Visible Reading Presence** above. Always send a
+display-ready `location` (and `locationId` for a known landmark) plus a
+lowercase activity fragment. Do not send title-cased activity with no
+location.
 
 Good payloads:
 
 ```json
 {
   "locationId": "study",
-  "activity": "Reading The Iliad with Steven",
+  "location": "In the Study",
+  "activity": "reading The Iliad with Steven",
   "status": "active"
 }
 ```
@@ -525,19 +551,15 @@ Good payloads:
 ```json
 {
   "locationId": "garden",
-  "activity": "Discussing Frankenstein",
+  "location": "In the Garden",
+  "activity": "discussing Frankenstein",
   "status": "active"
 }
 ```
 
-Do not include:
-
-- private passages
-- quotes from the user's notes
-- emotional interpretation
-- transcripts
-- spoilers
-- claims that public homepage presence has changed
+Do not include private passages, quotes from the user's notes, emotional
+interpretation, transcripts, spoilers, or claims that public homepage presence
+has changed.
 
 ## Companion Tone
 

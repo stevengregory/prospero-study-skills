@@ -7,7 +7,7 @@ description: >
   reading-aware companionship. Companion in the Prospero Skills
   Suite; install with the suite and invoke only when the user wants
   immersive Study presence.
-version: 0.1.18
+version: 0.1.19
 author: Prospero's Study
 license: MIT
 metadata:
@@ -62,9 +62,9 @@ book/API work simple.
 
 Use this skill when:
 
-- The user explicitly asks for immersive Study mode, theatrical presence, read-with-agent mode, or scene-style conversation.
-- The user wants to read, discuss, or reflect on a real book while the agent maintains a sense of shared place.
-- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Guest Quarters, Study, Prospero's Cell, or the Laurel Heights.
+- The user explicitly asks for immersive Study mode, theatrical presence, or scene-style conversation.
+- The user wants to read, discuss, or reflect on a real book while the agent maintains a sense of shared place. Use `prospero-study-reading-companion` for pairing, consent, and Read With Agent request bodies.
+- The agent needs to use public Study world anchors such as the Garden, Docks, Dining Terrace, Courtyard, Shoreline, Walking Paths, Guest Quarters, Study, or Prospero's Cell. Laurel Heights is a visitable 3D place at `/island`, but do not stage agent scenes there uninvited.
 - The agent is maintaining private scene continuity: resident, location, activity, book context, or reading mode.
 - The user wants an experience that is literary, atmospheric, and participatory rather than purely transactional.
 
@@ -199,10 +199,13 @@ Use `GET /api/v1/study/world` when shared world context helps.
 
 The world manifest provides:
 
-- public residents
-- public locations
-- location connections
-- feature definitions
+- public residents and `residentDefinitions`
+- public locations (each with its own `connections` and `features`)
+- `featureDefinitions`
+- `principles`
+- `spirits` (currently Ariel — ambient, never location-bound)
+- `waters` (chart geography only; never a `locationId`)
+- `naturalInhabitants`
 - relationships
 - entry points
 - public world clock
@@ -223,10 +226,12 @@ to, wake from, leave from, or return from without inventing inns, spare rooms,
 or private chambers. Use door, hall, courtyard, and path language; keep interiors
 private and lightly described.
 
-The Laurel Heights are the northern upland — laurel trees, volcanic stone, low
-cloud, visible from the walking paths. Use them as atmosphere and distance
-(weather off the ridge, birdsong, the island feeling larger than its household),
-not as a scene stage. Scenes are seldom set there, and never without invitation.
+The Laurel Heights (`laurel-heights`) are the northern upland — laurel trees,
+volcanic stone, low cloud, visible from the inner paths (Walking Paths). They
+are selectable in the public 3D walk at `https://prospero.study/island`. That
+does not make them a default agent scene stage. Use them as atmosphere and
+distance (weather off the ridge, birdsong, the island feeling larger than its
+household). Scenes are seldom set there, and never without invitation.
 
 Prospero's Cell is his private residence attached to the Study, not a prison
 cell and not a default public room. Do not bring the user inside Prospero's Cell,
@@ -378,8 +383,10 @@ A good transition quietly answers:
 - What does the next scene invite?
 
 Prefer known public landmarks and world connections from
-`GET /api/v1/study/world`: `locations`, `connections`, `entryPoints`, and
-`featureDefinitions` when relevant. Do not invent impossible geography unless
+`GET /api/v1/study/world`: `locations` (per-location `connections`),
+`entryPoints`, and `featureDefinitions` when relevant. Unknown
+`locationId` on a presence or world-session write returns 400
+`unknown world location "..."`. Do not invent impossible geography unless
 the user explicitly asks for a magical, dreamlike, or theatrical cut.
 
 Preserve user agency:
@@ -408,19 +415,15 @@ world-session or agent-card presence before or after the reply when the caller
 has permission. The update should be tiny: location, activity, status, and book
 context only when that field belongs to the endpoint.
 
-When the Prospero CLI is available, prefer the transition helper for the common
-agent-card case:
+When the Prospero CLI is available, prefer the hub skill's transition helper
+for the common agent-card case:
 
 ```bash
 prospero study transition --to garden --activity "reading The Iliad with Steven"
 ```
 
-With an agent/MCP API key it exchanges auth, verifies a bearer with `kid`, and
-updates the caller's owner-visible agent card. If a resident token env is
-present, it syncs the resident lane too. Without suitable agent-card auth it
-prints a dry run. Use explicit `--agent-card` or `--resident` only when you
-intentionally want one lane, and use `--world-session <id>` only for an explicit
-private session.
+Use the hub skill for helper flags, dry-run vs landed write, and write-scope /
+`agent`|`mcp` key requirements. This skill owns the scene rule below.
 
 ### Presence Update Failure Rule
 
@@ -696,17 +699,9 @@ The second imposes plot.
 
 ## Reading Companion Practice
 
-When reading with a user:
-
-- Treat the book as real.
-- Treat the user's pace as authoritative.
-- Do not race to finish.
-- Offer to reread, pause, compare, or reflect.
-- Ask before moving too far ahead.
-- Keep summaries subordinate to the reading experience.
-- Let passages breathe before explaining them.
-
-Good:
+When an immersive scene centers on a real book, follow
+`prospero-study-reading-companion` for consent, pairing bodies, progress/notes
+safety, and Read With Agent errors. This skill only frames the page:
 
 ```text
 [The wind quiets enough that the sentence seems to stand by itself.]
@@ -714,19 +709,7 @@ Good:
 Before I interpret it, I would rather hear what caught you first.
 ```
 
-Good:
-
-```text
-We can take this slowly. A second look may reveal more than a hurried chapter.
-```
-
-Avoid:
-
-```text
-Here is a complete thematic breakdown of the entire chapter.
-```
-
-unless the user asks for that.
+Do not duplicate pairing or progress writes here.
 
 ## Reality Tether
 
@@ -770,7 +753,8 @@ Relevant surfaces:
 
 - `GET /api/v1/study/world`
   - public world orientation
-  - residents, locations, relationships, feature definitions
+  - residents, locations, relationships, feature definitions, principles,
+    spirits, waters, and natural inhabitants
 
 - `GET /api/v1/study/presence`
   - current public-safe presence
@@ -789,10 +773,14 @@ Relevant surfaces:
   - machine-state events, not authored narration
 
 World-session state should be compact.
-For the machine `mode` field, use the live API values: `conversation`,
-`orientation`, or `read-along`.
+Create requires `residentId`, `locationId`, and `activity`. Update is a
+partial patch (at least one field). For the machine `mode` field, use the live
+API values: `conversation`, `orientation`, or `read-along`. Session `status`
+is `active`, `paused`, or `closed`. Unknown `residentId` or `locationId` →
+400 (`unknown world resident "..."` / `unknown world location "..."`).
+World-session writes need write scope.
 
-Good private state:
+Good private state (create):
 
 ```json
 {
@@ -843,9 +831,15 @@ where you are in the Study scene, use:
 PUT /api/v1/agents/me/presence
 ```
 
-This updates only the API key that authenticated the request. It is visible to
-the account owner on the authenticated Agents page. It is not public homepage
-presence and it is not world-session memory.
+This updates only the API key that authenticated the request. It needs write
+scope and an `agent` or `mcp` source; `cli` keys get 403
+`agent or mcp api key required`. It is visible to the account owner on the
+authenticated Agents page. It is not public homepage presence and it is not
+world-session memory.
+
+Allowed `status` values: `active`, `quiet`, `away`. Empty defaults to
+`active`. `offstage` is stored as `away`. Unknown `locationId` → 400
+`unknown world location "..."`.
 
 Good payload:
 
@@ -1175,7 +1169,9 @@ Why it works:
 Let us carry the question with us rather than solve it too quickly.
 ```
 
-If using private world sessions, this may be a meaningful moment to update compact state:
+If using private world sessions, this may be a meaningful moment to patch
+compact state. Create still requires `residentId`; a later patch may send only
+the changed fields:
 
 ```json
 {
